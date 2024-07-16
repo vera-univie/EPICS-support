@@ -1,0 +1,26 @@
+# Set the default behavior, in case people don't have core.autocrlf set.
+* text=auto
+
+# Explicitly declare text files you want to always be normalized and converted
+# to native line endings on checkout.
+*.c text
+*.cpp text
+*.h text
+*.hpp text
+*.java text
+*.sh text eol=lf
+*.bat text
+*.cmd text
+*.db text
+*.dbd text
+*.template text
+*.substitutions text
+*.opi text
+*.adl text
+*.html text
+*.xml text
+*.pl text
+*.py text
+*.txt text
+*.st text
+*.stt text

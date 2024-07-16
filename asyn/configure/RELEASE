@@ -1,0 +1,37 @@
+# RELEASE Location of external products
+
+# Define the following Required or Optional
+# either in this file, or in a RELEASE.local
+
+SUPPORT=/home/htlrennweg/EPICS/support
+
+# Optional
+# IPAC is only necessary if support for Greensprings IP488 is required
+# IPAC release V2-7 or later is required.
+# It can be obtained here: https://github.com/epics-modules/ipac
+#IPAC=$(SUPPORT)/ipac-2-16
+
+# Optional
+# SEQ is required for testIPServer
+# It can be obtained here: https://www-csr.bessy.de/control/SoftDist/sequencer/Manual.html
+SNCSEQ=/home/htlrennweg/EPICS/support/seq
+
+# Optional
+# For sCalcout support in asynOctet - applications include asynCalc.dbd
+# It can be obtained here: https://github.com/epics-modules/calc
+CALC=/home/htlrennweg/EPICS/support/calc
+
+# Optional
+# If CALC was built with SSCAN support then SSCAN must be defined for testEpicsApp
+# It can be obtained here: https://github.com/epics-modules/sscan
+SSCAN=/home/htlrennweg/EPICS/support/sscan
+
+# Required
+# EPICS_BASE 3.14.6 or later is required
+# It can be obtained here: https://github.com/epics-base/epics-base
+EPICS_BASE=/home/htlrennweg/EPICS/epics-base
+
+-include $(TOP)/../RELEASE.local
+-include $(TOP)/../RELEASE.$(EPICS_HOST_ARCH).local
+-include $(TOP)/configure/RELEASE.local
+

@@ -1,0 +1,59 @@
+#/bin/sh
+wkhtmltopdf --enable-local-file-access -V >/dev/null 2>&1
+case $? in
+  127)
+    echo "wkhtmltopdf not installed." >&2
+    echo "See https://wkhtmltopdf.org" >&2
+    exit 1
+    ;;
+  0)
+    # have (and need) --enable-local-file-access
+    ENABLE_FILE_ACCESS=--enable-local-file-access
+    ;;
+  1)
+    # have no (and need no) --enable-local-file-access
+    ;;
+  *)
+    # Some error but I don't know what it means. Try anyway.
+    ;;
+esac
+
+PAGES="
+index.html
+setup.html
+epics3_13.html
+protocol.html
+formats.html
+processing.html
+recordtypes.html
+aai.html
+aao.html
+ai.html
+ao.html
+bi.html
+bo.html
+calcout.html
+int64in.html
+int64out.html
+longin.html
+longout.html
+lsi.html
+lso.html
+mbbiDirect.html
+mbboDirect.html
+mbbi.html
+mbbo.html
+scalcout.html
+stringin.html
+stringout.html
+waveform.html
+tipsandtricks.html
+recordinterface.html
+businterface.html
+formatconverter.html
+osinterface.html
+"
+
+rm -f stream.pdf
+wkhtmltopdf --print-media-type --page-size Letter \
+$ENABLE_FILE_ACCESS $PAGES stream.pdf

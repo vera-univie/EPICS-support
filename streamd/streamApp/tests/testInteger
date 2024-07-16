@@ -1,0 +1,463 @@
+#!/usr/bin/env tclsh
+source streamtestlib.tcl
+
+# Define records, protocol and startup (text goes to files)
+# The asynPort "device" is connected to a network TCP socket
+# Talk to the socket with send/receive/assure
+# Send commands to the ioc shell with ioccmd
+
+set records {
+    record (ai, "DZ:test1")
+    {
+        field (DTYP, "stream")
+        field (LINR, "LINEAR")
+        field (INP,  "@test.proto test1 device")
+    }
+    record (ai, "DZ:test2")
+    {
+        field (DTYP, "stream")
+        field (LINR, "LINEAR")
+        field (INP,  "@test.proto test2 device")
+    }
+    record (ai, "DZ:test3")
+    {
+        field (DTYP, "stream")
+        field (LINR, "LINEAR")
+        field (INP,  "@test.proto test3 device")
+    }
+    record (ai, "DZ:test4")
+    {
+        field (DTYP, "stream")
+        field (INP,  "@test.proto test4 device")
+    }
+    record (ai, "DZ:test5")
+    {
+        field (DTYP, "stream")
+        field (LINR, "LINEAR")
+        field (INP,  "@test.proto test5 device")
+    }
+    record (ai, "DZ:test6")
+    {
+        field (DTYP, "stream")
+        field (LINR, "LINEAR")
+        field (INP,  "@test.proto test6 device")
+    }
+    record (ai, "DZ:test7")
+    {
+        field (DTYP, "stream")
+        field (LINR, "LINEAR")
+        field (INP,  "@test.proto test7 device")
+    }
+    record (ai, "DZ:test8")
+    {
+        field (DTYP, "stream")
+        field (LINR, "LINEAR")
+        field (INP,  "@test.proto test8 device")
+    }
+    record (ai, "DZ:test9")
+    {
+        field (DTYP, "stream")
+        field (LINR, "LINEAR")
+        field (INP,  "@test.proto test9 device")
+    }
+    record (ai, "DZ:test10")
+    {
+        field (DTYP, "stream")
+        field (INP,  "@test.proto test10 device")
+    }
+}
+
+set protocol {
+    Terminator = LF;
+    extraInput=ignore;
+    @mismatch {out "mismatch";}
+    test1 {in "%i"; out "%i"; }
+    test2 {in "%d"; out "%d"; }
+    test3 {in "%u"; out "%u"; }
+    test4 {in "%x"; out "%x"; }
+    test5 {in "%o"; out "%o"; }
+    test6 {in "%4i"; out "%i"; }
+    test7 {in "% 4i"; out "%i"; }
+    test8 {in "%#i"; out "%i"; }
+    test9 {in "%-x"; out "%i"; }
+    test10 {in "%-o"; out "%i"; }
+}
+
+set startup {
+}
+
+set debug 0
+
+startioc
+
+process DZ:test1
+send "12345\n"
+assure "12345\n"
+process DZ:test1
+send "-12345\n"
+assure "-12345\n"
+process DZ:test1
+send "   12345\n"
+assure "12345\n"
+process DZ:test1
+send "   -12345\n"
+assure "-12345\n"
+process DZ:test1
+send "- 12345\n"
+assure "mismatch\n"
+process DZ:test1
+send "\n"
+assure "mismatch\n"
+process DZ:test1
+send "   \n"
+assure "mismatch\n"
+process DZ:test1
+send " 0x12345\n"
+assure "74565\n"
+process DZ:test1
+send " 012345\n"
+assure "5349\n"
+process DZ:test1
+send "-0x12345\n"
+assure "-74565\n"
+process DZ:test1
+send "0xffffffff\n"
+assure "-1\n"
+process DZ:test1
+send "-0xffffffff\n"
+assure "1\n"
+
+process DZ:test2
+send "12345\n"
+assure "12345\n"
+process DZ:test2
+send "-12345\n"
+assure "-12345\n"
+process DZ:test2
+send "   12345\n"
+assure "12345\n"
+process DZ:test2
+send "   -12345\n"
+assure "-12345\n"
+process DZ:test2
+send "- 12345\n"
+assure "mismatch\n"
+process DZ:test2
+send "\n"
+assure "mismatch\n"
+process DZ:test2
+send "   \n"
+assure "mismatch\n"
+process DZ:test2
+send " 0x12345\n"
+assure "0\n"
+process DZ:test2
+send " 012345\n"
+assure "12345\n"
+process DZ:test2
+send "-0x12345\n"
+assure "0\n"
+process DZ:test2
+send "0xffffffff\n"
+assure "0\n"
+process DZ:test2
+send "-0xffffffff\n"
+assure "0\n"
+
+process DZ:test3
+send "12345\n"
+assure "12345\n"
+process DZ:test3
+send "-12345\n"
+assure "mismatch\n"
+process DZ:test3
+send "   12345\n"
+assure "12345\n"
+process DZ:test3
+send "   -12345\n"
+assure "mismatch\n"
+process DZ:test3
+send "- 12345\n"
+assure "mismatch\n"
+process DZ:test3
+send "\n"
+assure "mismatch\n"
+process DZ:test3
+send "   \n"
+assure "mismatch\n"
+process DZ:test3
+send " 0x12345\n"
+assure "0\n"
+process DZ:test3
+send " 012345\n"
+assure "12345\n"
+process DZ:test3
+send "-0x12345\n"
+assure "mismatch\n"
+process DZ:test3
+send "0xffffffff\n"
+assure "0\n"
+process DZ:test3
+send "-0xffffffff\n"
+assure "mismatch\n"
+
+process DZ:test4
+send "12345\n"
+assure "12345\n"
+process DZ:test4
+send "-12345\n"
+assure "mismatch\n"
+process DZ:test4
+send "   12345\n"
+assure "12345\n"
+process DZ:test4
+send "   -12345\n"
+assure "mismatch\n"
+process DZ:test4
+send "- 12345\n"
+assure "mismatch\n"
+process DZ:test4
+send "\n"
+assure "mismatch\n"
+process DZ:test4
+send "   \n"
+assure "mismatch\n"
+process DZ:test4
+send " 0x12345\n"
+assure "12345\n"
+process DZ:test4
+send " 012345\n"
+assure "12345\n"
+process DZ:test4
+send "-0x12345\n"
+assure "mismatch\n"
+process DZ:test4
+send "0xffffffff\n"
+assure "ffffffff\n"
+process DZ:test4
+send "-0xffffffff\n"
+assure "mismatch\n"
+
+process DZ:test5
+send "12345\n"
+assure "12345\n"
+process DZ:test5
+send "-12345\n"
+assure "mismatch\n"
+process DZ:test5
+send "   12345\n"
+assure "12345\n"
+process DZ:test5
+send "   -12345\n"
+assure "mismatch\n"
+process DZ:test5
+send "- 12345\n"
+assure "mismatch\n"
+process DZ:test5
+send "\n"
+assure "mismatch\n"
+process DZ:test5
+send "   \n"
+assure "mismatch\n"
+process DZ:test5
+send " 0x12345\n"
+assure "0\n"
+process DZ:test5
+send " 012345\n"
+assure "12345\n"
+process DZ:test5
+send "-0x12345\n"
+assure "mismatch\n"
+process DZ:test5
+send "0xffffffff\n"
+assure "0\n"
+process DZ:test5
+send "-0xffffffff\n"
+assure "mismatch\n"
+
+process DZ:test6
+send "12345\n"
+assure "1234\n"
+process DZ:test6
+send "-12345\n"
+assure "-123\n"
+process DZ:test6
+send "   12345\n"
+assure "1234\n"
+process DZ:test6
+send "   -12345\n"
+assure "-123\n"
+process DZ:test6
+send "- 12345\n"
+assure "mismatch\n"
+process DZ:test6
+send "\n"
+assure "mismatch\n"
+process DZ:test6
+send "   \n"
+assure "mismatch\n"
+process DZ:test6
+send " 0x12345\n"
+assure "18\n"
+process DZ:test6
+send " 012345\n"
+assure "83\n"
+process DZ:test6
+send "-0x12345\n"
+assure "-1\n"
+process DZ:test6
+send "0xffffffff\n"
+assure "255\n"
+process DZ:test6
+send "-0xffffffff\n"
+assure "-15\n"
+
+process DZ:test7
+send "12345\n"
+assure "1234\n"
+process DZ:test7
+send "-12345\n"
+assure "-123\n"
+process DZ:test7
+send "   12345\n"
+assure "1\n"
+process DZ:test7
+send "   -12345\n"
+assure "mismatch\n"
+process DZ:test7
+send "- 12345\n"
+assure "mismatch\n"
+process DZ:test7
+send "\n"
+assure "mismatch\n"
+process DZ:test7
+send "   \n"
+assure "mismatch\n"
+process DZ:test7
+send " 0x12345\n"
+assure "1\n"
+process DZ:test7
+send " 012345\n"
+assure "10\n"
+process DZ:test7
+send "-0x12345\n"
+assure "-1\n"
+process DZ:test7
+send "0xffffffff\n"
+assure "255\n"
+process DZ:test7
+send "-0xffffffff\n"
+assure "-15\n"
+
+process DZ:test8
+send "12345\n"
+assure "12345\n"
+process DZ:test8
+send "-12345\n"
+assure "-12345\n"
+process DZ:test8
+send "   12345\n"
+assure "12345\n"
+process DZ:test8
+send "   -12345\n"
+assure "-12345\n"
+process DZ:test8
+send "- 12345\n"
+assure "-12345\n"
+process DZ:test8
+send "\n"
+assure "mismatch\n"
+process DZ:test8
+send "   \n"
+assure "mismatch\n"
+process DZ:test8
+send " 0x12345\n"
+assure "74565\n"
+process DZ:test8
+send " 012345\n"
+assure "5349\n"
+process DZ:test8
+send "-0x12345\n"
+assure "-74565\n"
+process DZ:test8
+send "0xffffffff\n"
+assure "-1\n"
+process DZ:test8
+send "-0xffffffff\n"
+assure "1\n"
+
+process DZ:test9
+send "12345\n"
+assure "74565\n"
+process DZ:test9
+send "-12345\n"
+assure "-74565\n"
+process DZ:test9
+send "   12345\n"
+assure "74565\n"
+process DZ:test9
+send "   -12345\n"
+assure "-74565\n"
+process DZ:test9
+send "- 12345\n"
+assure "mismatch\n"
+process DZ:test9
+send "\n"
+assure "mismatch\n"
+process DZ:test9
+send "   \n"
+assure "mismatch\n"
+process DZ:test9
+send " 0x12345\n"
+assure "74565\n"
+process DZ:test9
+send " 012345\n"
+assure "74565\n"
+process DZ:test9
+send "-0x12345\n"
+assure "-74565\n"
+process DZ:test9
+send "0xffffffff\n"
+assure "-1\n"
+process DZ:test9
+send "-0xffffffff\n"
+assure "1\n"
+
+process DZ:test10
+send "12345\n"
+assure "5349\n"
+process DZ:test10
+send "-12345\n"
+assure "-5349\n"
+process DZ:test10
+send "   12345\n"
+assure "5349\n"
+process DZ:test10
+send "   -12345\n"
+assure "-5349\n"
+process DZ:test10
+send "- 12345\n"
+assure "mismatch\n"
+process DZ:test10
+send "\n"
+assure "mismatch\n"
+process DZ:test10
+send "   \n"
+assure "mismatch\n"
+process DZ:test10
+send " 0x12345\n"
+assure "0\n"
+process DZ:test10
+send " 012345\n"
+assure "5349\n"
+process DZ:test10
+send "-0x12345\n"
+assure "0\n"
+process DZ:test10
+send "0xffffffff\n"
+assure "0\n"
+process DZ:test10
+send "-0xffffffff\n"
+assure "0\n"
+
+finish

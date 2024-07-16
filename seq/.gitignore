@@ -1,0 +1,17 @@
+O.*/
+/db/
+/bin/
+/dbd/
+/include/
+/lib/
+/cfg/
+/templates/
+envPaths
+cdCommands
+dllPath.bat
+runIOC.bat
+runIOC.sh
+relPaths.sh
+documentation/bnf.inc
+.project
+/html/

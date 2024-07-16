@@ -1,0 +1,18 @@
+# START OF AUTO GENERATED DEPENDENCIES
+# END OF AUTO GENERATED DEPENDENCIES
+
+# optional extra local definitions here
+-include $(TOP)/configure/RELEASE.private
+
+EPICS_BASE=/home/htlrennweg/EPICS/epics-base
+
+# legacy support for synapps
+-include $(TOP)/../configure/EPICS_BASE.$(EPICS_HOST_ARCH)
+
+# this is how it is done nowadays
+-include $(TOP)/../RELEASE.local
+-include $(TOP)/../RELEASE.$(EPICS_HOST_ARCH).local
+-include $(TOP)/configure/RELEASE.local
+
+# unnecessary line was deleted by VERA
+# unnecessary line was deleted by VERA
